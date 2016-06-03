@@ -1,0 +1,14 @@
+<dom-module id="pitcher-name">
+	
+	<template>
+
+		<!-- Two way data binding with compute -->
+		<!-- As far as Polyer is concerned, it views input as a child element to pitcher-name (the host). -->
+		First Name: <input type="text" value="{{firstName::input}}"><br>
+		Last Name: <input type="text" value="{{lastName::input}}">
+
+	</template>
+
+</dom-module>
+
+<script src="pitcher-name.js"></script>

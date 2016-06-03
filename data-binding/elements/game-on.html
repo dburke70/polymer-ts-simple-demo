@@ -1,0 +1,116 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="pitcher-name.html">
+<link rel="import" href="team-scores.html">
+
+<dom-module id="game-on">
+	
+    <style>
+    	h1 {
+    		margin: 0 0 20px 0;
+    	}
+    </style>
+
+	<template>
+
+		<!-- One way data binding:  Host can update the child. (downward only) -->
+			<!-- Requirements: -->
+			<!-- Must use square brackets [[ ]] -->
+
+		<!-- Two way data binding:  Host can update the child and visa-versa. (downward and upward) -->
+			<!-- Requirements: -->
+			<!-- Must use curly brackets {{ }} -->
+			<!-- The property on the child element needs to be set to notify: true -->
+			<!-- Note:  Two-way data binding will be prevented if the child's property has readOnly set to true. -->
+
+
+		<!-- Here we're setting the input's value to a local variable: gameDate.  We're also telling Polymer to update the gameDate property when the input's value changed (done by appending the property with "::input") -->
+		<!--  We're also using two-way data binding (curly brackets) here because the child element (input) needs to update the host (team-scores.html). -->
+		<input type="text" value="{{gameDate::input}}"><br>
+		<h1>[[gameDate]]</h1>
+
+		<hr>
+
+		<!-- Here we're creating a two-way data bind between the child's firstName property and the local variable: pitcherFirstName -->
+		<!-- When pitcherFirstName changes, pitcher-name.first-name updates as well, and since we have two-way data binding, when pitcher-name.first-name changes, so does pitherFirstName. -->
+		<pitcher-name first-name="{{pitcherFirstName}}" last-name="{{pitcherLastName}}"></pitcher-name>
+		<input id="nameBtn" type="button" value="Change Last Name"><br>
+		<!--  pitcherFullName is a local property, but note that when either pitcherFirstName or pitcherLastName changes, it also changes pitcherFullName even though it was build using the computeFullName compute function.  -->
+		<h1>Pitcher:  [[pitcherFullName]]</h1>
+
+		<hr>
+		
+		<!-- Async element -->
+		<team-scores inning="{{inning}}"></team-scores>
+		<h1>Inning:  [[inning]]</h1>
+
+	</template>
+
+	<script>
+		Polymer({
+			is: 'game-on',
+			properties: {
+			  gameDate: {
+			    type: String,
+			    value: "",
+			    notify: false,				//the gameDate property doesn't exist in the host, so there is no need to notify it when gameDate changes in this element.
+			    reflectToAttribute: true	//tells the host to update the value it has for the game-date attribute.
+			  },
+
+			  pitcherFirstName: {
+			  	type: String,
+			  	value: "Homer"
+			  },
+			  pitcherLastName: {
+			  	type: String,
+			  	value: "Bailey"
+			  },
+			  pitcherFullName: {
+			  	type: String,
+			  	computed: 'computeFullName(pitcherFirstName, pitcherLastName)'
+			  },
+			  
+			  inning: {
+			  	type: Number,
+			  	value: 0
+			  }
+			},
+
+			listeners: {
+				'nameBtn.tap': 'changeLastName'
+			},
+
+			changeLastName: function() {
+				var index = this.pitcherLastName.indexOf(' - Changed');
+				if (index === -1) {
+					this.pitcherLastName += ' - Changed';
+				} else {
+					this.pitcherLastName = this.pitcherLastName.substring(0, index);
+				}
+			},
+
+			computeFullName: function(firstName, lastName) {
+				return firstName + ' ' + lastName;
+			},
+
+			// Lifecycle callbacks
+			created: function() {
+				console.log(this.localName + ' created called - Called when the element has been created, but before property values are set and local DOM is initialized.');
+			},
+			ready: function() {
+				console.log(this.localName + ' ready called - Called after property values are set and local DOM is initialized.');
+				this.fire("start-game");
+			},
+			attached: function() {
+				console.log(this.localName + ' attached called - Called after the element is attached to the document.');
+			},
+			detached: function() {
+				console.log(this.localName + ' detached called - Called after the element is detached from the document. ');
+			},
+			attributeChanged: function() {
+				console.log(this.localName + ' attributeChanged called - Called when one of the elements attributes is changed.');
+			}
+		});
+
+  </script>
+
+</dom-module>

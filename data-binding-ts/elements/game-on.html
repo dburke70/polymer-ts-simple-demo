@@ -1,0 +1,49 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymer-ts/polymer-ts.html">
+<link rel="import" href="pitcher-name.html">
+<link rel="import" href="team-scores.html">
+
+<dom-module id="game-on">
+	
+    <style>
+    	h1 {
+    		margin: 0 0 20px 0;
+    	}
+    </style>
+
+	<template>
+
+		<!-- One way data binding:  Host can update the child. (downward only) -->
+			<!-- Requirements: -->
+			<!-- Must use square brackets [[ ]] -->
+
+		<!-- Two way data binding:  Host can update the child and visa-versa. (downward and upward) -->
+			<!-- Requirements: -->
+			<!-- Must use curly brackets {{ }} -->
+			<!-- The property on the child element needs to be set to notify: true -->
+			<!-- Note:  Two-way data binding will be prevented if the child's property has readOnly set to true. -->
+
+
+		<!-- Here we're setting the input's value to a local variable: gameDate.  We're also telling Polymer to update the gameDate property when the input's value changed (done by appending the property with "::input") -->
+		<!--  We're also using two-way data binding (curly brackets) here because the child element (input) needs to update the host (team-scores.html). -->
+		<input type="text" value="{{gameDate::input}}"><br>
+		<h1>[[gameDate]]</h1>
+		<hr>
+
+		<!-- Here we're creating a two-way data bind between the child's firstName property and the local variable: pitcherFirstName -->
+		<!-- When pitcherFirstName changes, pitcher-name.first-name updates as well, and since we have two-way data binding, when pitcher-name.first-name changes, so does pitherFirstName. -->
+		<pitcher-name first-name="{{pitcherFirstName}}" last-name="{{pitcherLastName}}"></pitcher-name>
+		<input id="nameBtn" type="button" value="Change Last Name"><br>
+		<!--  pitcherFullName is a local property, but note that when either pitcherFirstName or pitcherLastName changes, it also changes pitcherFullName even though it was build using the computeFullName compute function.  -->
+		<h1>Pitcher:  [[pitcherFullName]]</h1>
+		<hr>
+		
+		<!-- Async element -->
+		<team-scores inning="{{inning}}"></team-scores>
+		<h1>Inning:  [[inning]]</h1>
+
+	</template>
+
+</dom-module>
+
+<script src="game-on.js"></script>

@@ -1,0 +1,33 @@
+<dom-module id="pitcher-name">
+	
+	<template>
+
+		<!-- Two way data binding with compute -->
+		<!-- As far as Polyer is concerned, it views input as a child element to pitcher-name (the host). -->
+		First Name: <input type="text" value="{{firstName::input}}"><br>
+		Last Name: <input type="text" value="{{lastName::input}}">
+
+	</template>
+
+	<script>
+		Polymer({
+			is: 'pitcher-name',
+			properties: {
+			  firstName: {
+			  	type: String,
+			  	value: "",
+			    notify: true,		//notify the host (team-scores) when this property's value changed.
+			    reflectToAttribute: true 	//tells the host to update the value for its first-name attribute.
+			  },
+			  lastName: {
+			  	type: String,
+			  	value: "",
+			    notify: true,		//notify the host (team-scores) when this property's value changed.
+			    reflectToAttribute: true 	//tells the host to update the value for its first-name attribute.
+			  }
+			}
+		});
+
+  </script>
+
+</dom-module>

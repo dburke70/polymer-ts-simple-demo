@@ -1,0 +1,68 @@
+<dom-module id="team-scores">
+	
+	<template>
+
+		<!-- Async updates -->
+		<div>Away Score: <span>[[awayScore]]</span></div>
+		<div>Home Score: <span>[[homeScore]]</span></div>
+
+	</template>
+
+	<script>
+		Polymer({
+			is: 'team-scores',
+			properties: {
+			  inning: {
+			  	type: Number,
+			  	value: 0,
+			  	notify: true,
+			  	observer: 'inningChanged'
+			  },
+			  interval: {
+			  	type: Number
+			  },
+			  awayScore: {
+			    type: Number,
+			    value: 0
+			  },
+			  homeScore: {
+			    type: Number,
+			    value: 0
+			  }
+			},
+			// listeners: {
+			// 	'start-game': 'startGame',
+			// 	'stop-game': 'stopGame'
+			// },
+			inningChanged: function(newValue, oldValue) {
+				if (newValue === 10) {
+					this.stopGame();
+					this.startGame();
+					// this.fire("stop-game");
+					// this.fire("start-game");
+				}
+			},
+			startGame: function(e) {
+				this.inning = 0;
+
+				this.interval = setInterval(this.updateScores.bind(this), 3000);
+			},
+			stopGame: function(e) {
+				clearInterval(this.interval);
+			},
+			updateScores: function() {
+				this.inning++;
+				this.awayScore = (this.inning * 2);
+				this.homeScore = (this.inning * 3);
+			},
+
+			// Lifecycle callbacks
+			ready: function() {
+				this.startGame();
+				//this.fire("start-game");
+			}
+		});
+
+  </script>
+
+</dom-module>

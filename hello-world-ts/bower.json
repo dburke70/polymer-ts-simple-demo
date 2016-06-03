@@ -1,0 +1,20 @@
+{
+  "name": "hello-world-ts",
+  "authors": [
+    "Dave Burke <dburke2@cincinna.gannett.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer-ts": "^0.1.26"
+  }
+}
